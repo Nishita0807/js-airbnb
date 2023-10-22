@@ -76,9 +76,7 @@
     </div>
     <div class="main">
     <div id="resultsContainer" class="main-1">
-        <div class="n-stay" id="stays">
-            200+ stays in Bordeaux
-        </div>
+       
         <hr>
         <!-- This is where the results will be displayed -->
     </div>
@@ -111,9 +109,19 @@
                 if (data && data.results && Array.isArray(data.results)) {
                     // Handle the API response data and display it on the page
                
+                    const locationInput = document.getElementById("locationInput");
+                    const dateInput = document.getElementById("dateInput");
+                    const guestsInput = document.getElementById("guestsInput");
 
 
+// Update the placeholder with the fetched locationValue
+locationInput.placeholder = `${locationValue}`;
+dateInput.placeholder=`${checkInValue}`;
                     const mainContainer = document.querySelector('.main-1');
+                    const locationHeading = document.createElement('div');
+                    locationHeading.className='n-stay';
+    locationHeading.textContent = `200+ stays in ${locationValue}`;
+    mainContainer.appendChild(locationHeading);
 
                     // Loop through the results and create a card for each property
                     data.results.forEach(property => {
@@ -192,6 +200,7 @@
 
         // Call the function to fetch and display data
         getQueryParams();
+        
     </script>
 </body>
 </html>
