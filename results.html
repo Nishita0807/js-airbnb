@@ -3,6 +3,9 @@
 <head>
     <title>Results Page</title>
  <link rel="stylesheet" href="style1.css">
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+ <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
 </head>
 <body>
     <div class="nav">
@@ -76,13 +79,11 @@
     </div>
     <div class="main">
     <div id="resultsContainer" class="main-1">
-        <div class="n-stay" id="stays">
-            200+ stays in Bordeaux
-        </div>
+       
         <hr>
         <!-- This is where the results will be displayed -->
     </div>
-    <div class="map">
+    <div class="map" id="map">
 
     </div>
     </div>
@@ -102,8 +103,8 @@
             fetch(apiUrl, {
                 method: 'GET',
                 headers: {
-		'X-RapidAPI-Key': 'f7ef7be6admshd1eb20e1a310221p12741ejsn95155f2508e4',
-		'X-RapidAPI-Host': 'airbnb13.p.rapidapi.com'
+                    'X-RapidAPI-Key': '448b470419mshea406f4348c46bap186ee4jsnf9ed453ecdbe',
+    'X-RapidAPI-Host': 'airbnb13.p.rapidapi.com'
 	}
             })
             .then(response => response.json())
@@ -111,20 +112,44 @@
                 if (data && data.results && Array.isArray(data.results)) {
                     // Handle the API response data and display it on the page
                
+                    const locationInput = document.getElementById("locationInput");
+                    const dateInput = document.getElementById("dateInput");
+                    const guestsInput = document.getElementById("guestsInput");
 
 
+// Update the placeholder with the fetched locationValue
+locationInput.placeholder = `${locationValue}`;
+dateInput.placeholder=`${checkInValue}`;
                     const mainContainer = document.querySelector('.main-1');
+                    const locationHeading = document.createElement('div');
+                    locationHeading.className='n-stay';
+    locationHeading.textContent = `200+ stays in ${locationValue}`;
+    mainContainer.appendChild(locationHeading);
+    const map = L.map('map');
+                const markers = L.layerGroup();
 
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                // Initialize map bounds
+                const mapBounds = [];
                     // Loop through the results and create a card for each property
+                  
+
                     data.results.forEach(property => {
-                        const cardElement = document.createElement('div');
+                      
+
+                   const cardElement = document.createElement('div');
   cardElement.className = 'cards';
+ 
 
 
                         // Display property information (you can customize this)
                         cardElement.innerHTML = `
 
- <div class="cards">
+
                 <div class="img" style="background-size: cover;background-image: url(${property.images[0]});height:200px;width:600px;border-radius:24px;"></div>
                 <div class="img-content">
                     <div class="contains-heart">
@@ -168,19 +193,81 @@
                         </div>
                         <div><b>${property.price.currency} ${property.price.rate}</b> /night</div>
                     </div>
+                    <button class="breakdown-button" data-lat="${property.lat}" data-lng="${property.lng}">Breakdown</button>
                 </div>
-            </div>
+       
+            
            
   `;
+  const breakdownButton = cardElement.querySelector('.breakdown-button');
+breakdownButton.addEventListener('click', (event) => {
+    // Prevent the default button behavior (navigation)
+    event.preventDefault();
+
+    // Get latitude and longitude from data attributes
+    const lat = breakdownButton.getAttribute('data-lat');
+    const lng = breakdownButton.getAttribute('data-lng');
+    
+    // Show an alert with property.lat and property.lng
+    alert(`Latitude: ${lat}, Longitude: ${lng}`);
+});
 
   // Append the card to the main container
-  cardElement.addEventListener('click', () => {
-    // Redirect to "index2.html" with the desired property ID as a query parameter
-    window.location.href = `index2.html?id=${property.id}`;
-  });
-  mainContainer.appendChild(cardElement);
+// Append the card to the main container
 
+
+let imagesArray = [];
+imagesArray = property.images;
+
+cardElement.addEventListener('click', () => {
+    const cardDetails = {
+        id: property.id,
+        title: property.name,
+        amenityIds: property.amenityIds,
+        currency: property.price.rate,
+        images: imagesArray, // Include the fetched array of image URLs
+        bedrooms:property.bedrooms,
+        beds:property.beds,
+        bathrooms:property.bathrooms,
+        type:property.type,
+        rating:property.rating,
+        address:property.address,
+        reviews:property.reviewsCount,
+        lat:property.lat,
+        lng:property.lng,
+        // Add other properties you want to pass
+    };
+
+  
+// Loop through the card details and add markers for each card
+
+    // Convert the card details to a JSON string and encode it
+    const cardDetailsJson = encodeURIComponent(JSON.stringify(cardDetails));
+
+    // Redirect to "index2.html" with the card details as a query parameter
+    window.location.href = `index2.html?cardDetails=${cardDetailsJson}`;
+    
+});
+
+
+  mainContainer.appendChild(cardElement);
+  const lat = parseFloat(property.lat);
+                    const lng = parseFloat(property.lng);
+
+                    if (!isNaN(lat) && !isNaN(lng)) {
+                        // Add a marker to the map if latitude and longitude are valid
+                        const marker = L.marker([lat, lng]).addTo(markers);
+                        marker.bindPopup(property.name);
+
+                        // Add the marker's coordinates to the map bounds
+                        mapBounds.push([lat, lng]);
+                    }
                     });
+                    map.fitBounds(mapBounds);
+
+// Add the markers layer to the map
+markers.addTo(map);
+
                 } else {
                     console.error("API response is not in the expected format.");
                 }
@@ -192,6 +279,15 @@
 
         // Call the function to fetch and display data
         getQueryParams();
-    </script>
+       
+
+   
+       
+ 
+</script>
+
+
+    
 </body>
+
 </html>

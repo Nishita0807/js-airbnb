@@ -142,7 +142,7 @@ line-height: 40px; /* 133.333% */
 .grid-item {
   width:700px; /* Each grid item spans the full width of its column */
   height: 400px; /* Set the desired height */
-  background-image: url(./img-1/c-1.png);
+  /* background-image: url(./img-1/c-1.png); */
   background-size: cover; /* Cover the entire div with the background image */
   background-repeat: no-repeat; /* Prevent the background image from repeating */
   border-bottom-left-radius: 16px;
@@ -172,7 +172,7 @@ line-height: 40px; /* 133.333% */
 }
 
 .grid-1 {
-  background-image: url('./img-2/geo-img.png'); 
+  /* background-image: url('./img-2/geo-img.png');  */
   background-size: cover;
   background-repeat: no-repeat;
  
@@ -180,7 +180,7 @@ line-height: 40px; /* 133.333% */
 }
 
 .grid-2{
-  background-image: url('./img-2/geo-img-1.png'); 
+  /* background-image: url('./img-2/geo-img-1.png');  */
   background-size: cover;
   background-repeat: no-repeat;
   border-top-right-radius: 16px;
@@ -188,14 +188,14 @@ line-height: 40px; /* 133.333% */
 }
 
 .grid-3{
-  background-image: url('./img-2/geo-img-2.png'); 
+  /* background-image: url('./img-2/geo-img-2.png');  */
   background-size: cover;
   background-repeat: no-repeat;
 
 }
 
 .grid-4{
-  background-image: url('./img-2/geo-img-3.png'); 
+  /* background-image: url('./img-2/geo-img-3.png');  */
   background-size: cover;
   background-repeat: no-repeat;
   border-bottom-right-radius: 16px;
