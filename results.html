@@ -103,9 +103,9 @@
             fetch(apiUrl, {
                 method: 'GET',
                 headers: {
-                    'X-RapidAPI-Key': '448b470419mshea406f4348c46bap186ee4jsnf9ed453ecdbe',
+    'X-RapidAPI-Key': '8d321eef1amshf4e903d4564669fp1e3ce6jsnfd5763ab5345',
     'X-RapidAPI-Host': 'airbnb13.p.rapidapi.com'
-	}
+  }
             })
             .then(response => response.json())
             .then(data => {
@@ -193,24 +193,22 @@ dateInput.placeholder=`${checkInValue}`;
                         </div>
                         <div><b>${property.price.currency} ${property.price.rate}</b> /night</div>
                     </div>
-                    <button class="breakdown-button" data-lat="${property.lat}" data-lng="${property.lng}">Breakdown</button>
-                </div>
+                  <div class="breakdown-button" style="display:flex; justify-content:center; align-items:center;  width:300px; border-radius:12px; padding:3px;background-color:gray;border:1px solid red;">price-breakdown</div>
+                  <div class="directions" style="text-decoration:underline;">Get Directions</div>
+                  </div>
        
             
            
   `;
-  const breakdownButton = cardElement.querySelector('.breakdown-button');
-breakdownButton.addEventListener('click', (event) => {
-    // Prevent the default button behavior (navigation)
-    event.preventDefault();
 
-    // Get latitude and longitude from data attributes
-    const lat = breakdownButton.getAttribute('data-lat');
-    const lng = breakdownButton.getAttribute('data-lng');
-    
-    // Show an alert with property.lat and property.lng
-    alert(`Latitude: ${lat}, Longitude: ${lng}`);
-});
+  const directionsButton = cardElement.querySelector('.directions');
+        directionsButton.addEventListener("click", function() {
+            openDirections(property.lat, property.lng);
+        });
+
+
+
+
 
   // Append the card to the main container
 // Append the card to the main container
@@ -218,8 +216,15 @@ breakdownButton.addEventListener('click', (event) => {
 
 let imagesArray = [];
 imagesArray = property.images;
-
-cardElement.addEventListener('click', () => {
+const modal = document.createElement('div');
+modal.className = 'modal';
+modal.style.display = 'none'; // Initially hide the modal
+document.body.appendChild(modal);
+document.addEventListener('click', (event) => {
+    if (event.target.closest('.cards')) {
+        // If a card element is clicked (except "breakdown-button"), navigate to index2.html
+        if (!event.target.classList.contains('breakdown-button')) {
+            const cardElement = event.target.closest('.cards');
     const cardDetails = {
         id: property.id,
         title: property.name,
@@ -246,8 +251,47 @@ cardElement.addEventListener('click', () => {
 
     // Redirect to "index2.html" with the card details as a query parameter
     window.location.href = `index2.html?cardDetails=${cardDetailsJson}`;
-    
+}
+  
+}
 });
+
+
+document.addEventListener('click', (event) => {
+    
+            // Check if the clicked element is the "price-breakdown" button
+            const breakdownButton = cardElement.querySelector('.breakdown-button');
+            if (breakdownButton === event.target) {
+                // Show the modal and populate its content with property details
+                modal.style.display = 'block';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <h2>Breakdown Cost</h2>
+                        <p>Title: ${property.name}</p>
+    <p>Base Rate: ${property.price.currency} ${property.price.rate}</p>
+    <p>Total Fees: ${property.price.currency} ${property.price.total}</p>
+                        <button id="closeModal">Close</button>
+                    </div>
+                `;
+
+                // Add a click event listener to the modal's "Close" button
+                const closeModalButton = modal.querySelector('#closeModal');
+                closeModalButton.addEventListener('click', () => {
+                    // Close the modal when the "Close" button is clicked
+                    modal.style.display = 'none';
+                });
+            }
+      
+});
+
+
+
+
+
+
+
+
+
 
 
   mainContainer.appendChild(cardElement);
@@ -278,6 +322,12 @@ markers.addTo(map);
         }
 
         // Call the function to fetch and display data
+
+
+        function openDirections(latitude, longitude) {
+        const url = `https://www.google.com/maps/dir//${latitude},${longitude}`;
+        window.open(url, "_blank");
+    }
         getQueryParams();
        
 
