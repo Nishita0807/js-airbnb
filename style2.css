@@ -1136,3 +1136,147 @@ padding-left: 24px;
   }
 
   
+
+
+  @media only screen and (max-width: 800px) {
+    .nav{
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+    .profile{
+display: none;
+    }
+    .all-reviews,.review-1{
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .two-column-grid {
+      margin-top: 24px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(1, 400px); /* Two columns with a width of 500px each */
+     width:400px;
+     height: auto;
+      
+  
+  }
+  .grid-item {
+    width:400px; /* Each grid item spans the full width of its column */
+    height: 300px; /* Set the desired height */
+    /* background-image: url(./img-1/c-1.png); */
+   
+    /* Add any other styling you need */
+  }
+  .sub-grid-item {
+    
+    width: 200px; /* Each sub-grid item spans the full width of its column */
+    height: 200px; /* Each sub-grid item spans the full height of its row */
+
+    
+    /* Add any other styling you need */
+}
+.grid-item-1 {
+  display: grid;
+  grid-template-columns: repeat(2,200px);
+  grid-template-rows: repeat(2, 200px);
+  grid-gap: 8px;
+  width: 400px; /* Matches the width of two columns */
+  height: 400px;
+ 
+  
+}
+.part-2{
+  display: none;
+}
+
+.hotel-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width:350px;
+}
+.hotel-all>div:nth-child(2){
+  display: none;
+}
+
+.home-text{
+  width:300px;
+}
+
+.sleep{
+  margin-top: 150px;
+  border-bottom: 1px solid gray;
+  width:350px;
+
+}
+
+
+
+.offers{
+  width: 350px;
+  border-bottom: 1px solid gray;
+  margin-bottom:12px;
+}
+
+
+.offer-all>div:not(:first-child){
+  display: none;
+}
+.calendar-layout{
+flex-direction: column;
+}
+.r-scale>div:nth-child(3),.r-scale>div:nth-child(4){
+  display: none;
+}
+.r-1{
+  display: none;
+}
+
+.map-image{
+  width: 350px;
+height: 350px;
+
+
+}
+.mapping{
+  margin:40px;
+  width: 350px;
+  
+}
+.things{
+  display: none;
+}
+.f-3{
+
+  flex-direction: column;
+}
+
+.end{
+  width:350px;
+  margin:24px;
+ 
+  border: 1px solid gray;
+}
+
+.f-1{
+  display: none;
+}
+.f-2{
+  display: flex;
+ gap:10px;
+  justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ }
+ .f-2list ul li {
+  display: inline;
+  margin-right: 20px; /* Add some spacing between items if needed */
+  color: gray;
+}
+
+  }
