@@ -347,24 +347,36 @@ function filterAndNavigate() {
 }
 
 // Function to make the API call (you can include this function if you need to make the API call)
+// Function to make the API call
 async function getData(location, checkin, checkout) {
     const url = `https://airbnb13.p.rapidapi.com/search-location?location=${location}&checkin=${checkin}&checkout=${checkout}&adults=1&children=0&infants=0&pets=0&page=1&currency=USD`;
 
     const options = {
         method: 'GET',
         headers: {
-    'X-RapidAPI-Key': '587c0f253amsh0e69b7848630f3cp1bd742jsn4ad08bfdad06',
-    'X-RapidAPI-Host': 'airbnb13.p.rapidapi.com'
-  }
+            'X-RapidAPI-Key': '587c0f253amsh0e69b7848630f3cp1bd742jsn4ad08bfdad06',
+            'X-RapidAPI-Host': 'airbnb13.p.rapidapi.com'
+        }
     };
 
     try {
         const response = await fetch(url, options);
-        const result = await response.text();
-        console.log(result);
-     
+
+        // Log the entire response object for debugging
+        console.log('Complete API Response:', response);
+
+        if (response.ok) {
+            const result = response.text();
+
+            // Log the parsed JSON data to the console
+            console.log('Parsed API Response:', result);
+
+            // You can further process the data or update your UI with the received information
+        } else {
+            console.error('API Error:', response.status, response.statusText);
+        }
     } catch (error) {
-        console.error(error);
+        console.error('Fetch Error:', error);
     }
 }
 
